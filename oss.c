@@ -191,18 +191,18 @@ int main(int argc, char *argv[]){
     const int sh_key = 3147550;
 
     //Create key using ftok() for more uniqueness
-    key_t msqkey;
-    if((msqkey = ftok("oss.h", 'a')) == (key_t) -1){
-        perror("IPC error: ftok");
-        exit(1);
-    }
+    // key_t msqkey;
+    // if((msqkey = ftok("oss.h", 'a')) == (key_t) -1){
+    //     perror("IPC error: ftok");
+    //     exit(1);
+    // }
 
     //open an existing message queue or create a new one
     int msqid;
-    if ((msqid = msgget(msqkey, PERMS | IPC_CREAT)) == -1) {
-      perror("Failed to create new private message queue");
-      exit(1);
-   }
+//     if ((msqid = msgget(msqkey, PERMS | IPC_CREAT)) == -1) {
+//       perror("Failed to create new private message queue");
+//       exit(1);
+//    }
 
     //create shared memory
     int shm_id = shmget(sh_key, sizeof(struct PCB), IPC_CREAT | 0666);
@@ -439,10 +439,13 @@ int main(int argc, char *argv[]){
             processTable[childrenToLaunch].total_CPU_time = -recievedFromWorker;
         }
 
+        printf("\n");
         printTable(fileLogging);
+        printf("\n");
         
         //printf("is ready queue empty: %d, is blocked queue mepty: %d, NOT is something running in processtable: %d, is time passed 3s : %d\n", isQueueEmpty(ready_queue), isQueueEmpty(blocked_queue), !isSomthingRunning(), current_time > 3 );
-        if(isQueueEmpty(ready_queue) && isQueueEmpty(blocked_queue) && !isSomthingRunning() && current_time > 3){  //If all processes have finished work and have terminated, exit program
+        //if(isQueueEmpty(ready_queue) && isQueueEmpty(blocked_queue) && !isSomthingRunning() && current_time > 3){  //If all processes have finished work and have terminated, exit program
+        if(isQueueEmpty(ready_queue) && isQueueEmpty(blocked_queue) && !isSomthingRunning()){  
             printf("Eveytthig is empty. Ending \n");
             break;
         }

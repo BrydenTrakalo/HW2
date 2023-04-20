@@ -10,9 +10,7 @@ This project is not completed. All ideas are implemented(most work fine seperate
 ipcs -a for all, -m for memory, -q for queues
 ipcrm -m for shmid and -q for queue id
 
-git add *
-git commit -m "fixing"
-git push
+git add *; git commit -m "fixing"; git push;
 
 git pull
 make
