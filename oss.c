@@ -446,9 +446,9 @@ int main(int argc, char *argv[]){
             printf("Eveytthig is empty. Ending \n");
             break;
         }
-        // if(procNum == 1){
-        //     break;
-        // }
+        if(procNum == 1){
+            break;
+        }
     }
 
     //wait(0); //wait for all processes to complete then exit. should check for process tbale to empty actually so make sure you reveieve messages

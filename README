@@ -7,9 +7,14 @@ This project is not completed. All ideas are implemented(most work fine seperate
 - Everything worked well for one process, but could not do multiple process
 
 
-ipcs -m for memory, -q for queues
+ipcs -a for all, -m for memory, -q for queues
 ipcrm -m for shmid and -q for queue id
 
 git add *
 git commit -m "fixing"
 git push
+
+git pull
+make
+./oss
+
