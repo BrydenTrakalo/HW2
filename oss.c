@@ -285,28 +285,28 @@ int main(int argc, char *argv[]){
             setItem(ready_queue, procNum, 0, 0); // put first process into ready queue
             printf("CREATING NEW PROCESS\n");
         }
-        if(procNum >= 1 && newProcTime <= current_time && current_time <= 3 && procNum < 10){    //Code to generate new process
-            childNum++; //increment child for new message
-            procNum++; //set next process (will be 2)
-            simPID++; //increment simulated PID (will be 10001)
-            childrenToLaunch++; //for the table
+        // if(procNum >= 1 && newProcTime <= current_time && current_time <= 3 && procNum < 10){    //Code to generate new process
+        //     childNum++; //increment child for new message
+        //     procNum++; //set next process (will be 2)
+        //     simPID++; //increment simulated PID (will be 10001)
+        //     childrenToLaunch++; //for the table
 
-            //creates random second and nanosecond to put into memory
-            newProcsSec = randomNumberGenerator(maxSec) + newProcsSec;
-            newProcsNS = randomNumberGenerator(maxNano) + newProcsNS;
-            if(newProcsNS > maxNano){
-                newProcsSec += 1;
-                newProcsNS - maxNano;
-            }
-            newProcTime = newProcsSec + (newProcsNS/BILLION);
+        //     //creates random second and nanosecond to put into memory
+        //     newProcsSec = randomNumberGenerator(maxSec) + newProcsSec;
+        //     newProcsNS = randomNumberGenerator(maxNano) + newProcsNS;
+        //     if(newProcsNS > maxNano){
+        //         newProcsSec += 1;
+        //         newProcsNS - maxNano;
+        //     }
+        //     newProcTime = newProcsSec + (newProcsNS/BILLION);
 
-            printf("random number - seconds: %i\n", newProcsSec);
-            printf("random number - Nano: %i\n\n", newProcsNS);
+        //     printf("random number - seconds: %i\n", newProcsSec);
+        //     printf("random number - Nano: %i\n\n", newProcsNS);
 
-            printf("CREATING NEW PROCESS\n");
+        //     printf("CREATING NEW PROCESS\n");
 
-            setItem(ready_queue, procNum, 0, 0); // Puts a new process into ready queue
-        }
+        //     setItem(ready_queue, procNum, 0, 0); // Puts a new process into ready queue
+        // }
 
 
         //if the process number in the queue is -1, then there are no processes in the queue
@@ -314,10 +314,15 @@ int main(int argc, char *argv[]){
             //printf("No items in the ready queue");
         }
 
-        //take process out of the ready queue that has been in there the longest 
+        //take process out of the ready queue that has been in there the longest, if nothing then grab from blocked queue, if nothing then get nothing
         if(!isQueueEmpty(ready_queue)){
             queueGrabber = getItem(ready_queue);
             currentP = queueGrabber.processNum;
+            printf("Got from ready queue \n");
+        }else if (!isQueueEmpty(blocked_queue)){    //Should only get if the item in there has been in for a long enough time
+            queueGrabber = getItem(blocked_queue);
+            currentP = queueGrabber.processNum;
+            printf("Got from blocekd queue \n");
         }else{
             currentP = -1;
         }
@@ -438,17 +443,18 @@ int main(int argc, char *argv[]){
         
         //printf("is ready queue empty: %d, is blocked queue mepty: %d, NOT is something running in processtable: %d, is time passed 3s : %d\n", isQueueEmpty(ready_queue), isQueueEmpty(blocked_queue), !isSomthingRunning(), current_time > 3 );
         if(isQueueEmpty(ready_queue) && isQueueEmpty(blocked_queue) && !isSomthingRunning() && current_time > 3){  //If all processes have finished work and have terminated, exit program
+            printf("Eveytthig is empty. Ending \n");
             break;
         }
-        if(procNum == 1){
-            break;
-        }
+        // if(procNum == 1){
+        //     break;
+        // }
     }
 
     //wait(0); //wait for all processes to complete then exit. should check for process tbale to empty actually so make sure you reveieve messages
 
     
-    printf("deleting memory");
+    printf("deleting memory\n");
 
     shmdt( shm_ptr ); // Detach from the shared memory segment
     shmctl( shm_id, IPC_RMID, NULL ); // Free shared memory segment shm_id 
@@ -462,7 +468,7 @@ int main(int argc, char *argv[]){
     //close the log file
     fclose(fileLogging);
 
-    printf("deleted.");
+    printf("deleted.\n");
 
     return 0;
 }
