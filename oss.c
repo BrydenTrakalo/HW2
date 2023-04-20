@@ -264,6 +264,8 @@ int main(int argc, char *argv[]){
     double newProcsNS = randomNumberGenerator(maxNano);
     double newProcTime = newProcsSec + (newProcsNS/BILLION);
 
+    int loops = 0
+
     while(1) {
 
     //ALL OUTPUT
@@ -449,9 +451,14 @@ int main(int argc, char *argv[]){
             printf("Eveytthig is empty. Ending \n");
             break;
         }
-        if(procNum == 1){
+        // if(procNum == 1){
+        //     break;
+        // }
+        if (loops > 3){
+            printf("Past 3 loops. Ending \n");
             break;
         }
+        loops++;
     }
 
     //wait(0); //wait for all processes to complete then exit. should check for process tbale to empty actually so make sure you reveieve messages

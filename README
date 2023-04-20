@@ -12,7 +12,5 @@ ipcrm -m for shmid and -q for queue id
 
 git add *; git commit -m "fixing"; git push;
 
-git pull
-make
-./oss
+git pull; make; ./oss
 
